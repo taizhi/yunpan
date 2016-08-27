@@ -187,6 +187,8 @@ void getinfo(char *key,char *targetValue,char *filename)
 		sprintf(targetValue,"%s||%s||%s||%s||%s||%s",key,url,filename,stime,"1",type);
 		
 		printf("下载地址=%s<br>",url);
+		
+		
 		//printf("\n信息=%s",targetValue);
 		
 }
@@ -259,6 +261,19 @@ int savefdfs(char *path,char *filename)
 		else{
 			printf("保存key失败\n");
 		}
+		 
+		char command[50] = {0};
+		sprintf(command,"ZADD FILE_HOT_ZSET 0 %s ",file_id);
+		ret = rop_redis_command(conn,command);
+		if(-1 == ret)
+		{
+			printf("点击量表保存失败\n");
+		}
+		else
+		{
+			printf("<br>ok%s<br>",command);
+		}
+		
 		rop_disconnect(conn);
 		
 		//printf("key=%s\n",file_id);
